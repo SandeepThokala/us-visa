@@ -6,17 +6,20 @@ from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 from selenium import webdriver
-import chromedriver_autoinstaller
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.utils import ChromeType
+from webdriver_manager.chrome import ChromeDriverManager
 
 SENDER = 'sandeep.thokala98@gmail.com'
 
-chromedriver_autoinstaller.install()
-chrome = webdriver.Chrome()
+chrome = webdriver.Chrome(
+    ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()
+)
 
 def login():
     chrome.get(r'https://ais.usvisa-info.com/en-ca/niv/users/sign_in')
