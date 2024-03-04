@@ -16,9 +16,7 @@ from webdriver_manager.core.os_manager import ChromeType
 
 SENDER = 'sandeep.thokala98@gmail.com'
 
-chrome = webdriver.Chrome(
-    ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()
-)
+chrome = webdriver.Chrome()
 
 def login():
     chrome.get(r'https://ais.usvisa-info.com/en-ca/niv/users/sign_in')
