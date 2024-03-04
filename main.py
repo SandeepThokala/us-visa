@@ -12,11 +12,28 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from webdriver_manager.chrome import ChromeDriverManager
-from webdriver_manager.core.os_manager import ChromeType
+from webdriver_manager.core.utils import ChromeType
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 
 SENDER = 'sandeep.thokala98@gmail.com'
 
-chrome = webdriver.Chrome()
+chrome_service = Service(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install())
+
+chrome_options = Options()
+options = [
+    "--headless",
+    "--disable-gpu",
+    "--window-size=1920,1200",
+    "--ignore-certificate-errors",
+    "--disable-extensions",
+    "--no-sandbox",
+    "--disable-dev-shm-usage"
+]
+for option in options:
+    chrome_options.add_argument(option)
+
+chrome = webdriver.Chrome(service=chrome_service, options=chrome_options)
 
 def login():
     chrome.get(r'https://ais.usvisa-info.com/en-ca/niv/users/sign_in')
