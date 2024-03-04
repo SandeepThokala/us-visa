@@ -25,7 +25,7 @@ jobs:
       - name: execute py script # run main.py
         env:
           APP_PASSWORD: ${{ secrets.APP_PASSWORD }}
-          MESSAGE: ${{ secrets.MESSAGE }}
+          LOGIN_PASSWORD: ${{ secrets.LOGIN_PASSWORD }}
         run: python main.py
           
       - name: commit files
