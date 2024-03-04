@@ -13,14 +13,11 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.core.os_manager import ChromeType
-from selenium.webdriver.chrome.service import Service as ChromiumService
 
 SENDER = 'sandeep.thokala98@gmail.com'
 
 chrome = webdriver.Chrome(
-    service=ChromiumService(
-        ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()
-    )
+    ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()
 )
 
 def login():
