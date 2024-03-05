@@ -1,8 +1,5 @@
 import os
 import smtplib as smtp
-from email.mime.text import MIMEText
-from email.mime.image import MIMEImage
-from email.mime.multipart import MIMEMultipart
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
@@ -61,6 +58,7 @@ def check_slot(city):
     )
     Select(select).select_by_visible_text(city)
 
+    # Wait 10s until 'try again text' has style attribute and check for dates
     try:
         WebDriverWait(chrome, 10).until(
             EC.text_to_be_present_in_element_attribute(
@@ -74,12 +72,13 @@ def check_slot(city):
         )
         ActionChains(chrome).move_to_element(button).click(button).perform()
 
-        for i in range(50):
+        # Check next 14 months for a slot
+        for i in range(14):
             try:
-                WebDriverWait(chrome, 10).until(
-                    EC.presence_of_element_located((By.XPATH, '''//*[@id="ui-datepicker-div"]'''))
-                ).find_element(By.TAG_NAME, 'a')
-                send_mail()
+                date = WebDriverWait(chrome, 10).until(
+                    EC.presence_of_element_located((By.CLASS_NAME, "ui-datepicker-group-first"))
+                ).find_element(By.TAG_NAME, 'tbody').find_element(By.TAG_NAME, 'a')
+                send_mail(f'{date.get_attribute("data-month")}-{date.get_attribute("data-yeay")}')
                 break
             except:
                 next = WebDriverWait(chrome, 10).until(
@@ -87,27 +86,19 @@ def check_slot(city):
                 )
                 ActionChains(chrome).move_to_element(next).click(next).perform()
 
+        # Go to except block if no slot is found
+        raise
+
     except:
         if city == 'Toronto':
             check_slot('Ottawa')
         else:
-            send_mail()
+            return
 
-def send_mail():
+def send_mail(body):
     with smtp.SMTP_SSL('smtp.gmail.com', 465) as conn: 
-        mess = MIMEMultipart()
-        mess['From'] = SENDER
-        mess['To'] = SENDER
-        mess['Subject'] = 'Rescheule your slot'
-        mess.attach(MIMEText('No slots available'))
-        # mess.attach(
-        #     MIMEImage(
-        #         base64.b64decode(chrome.get_screenshot_as_base64()),
-        #         name='image.png'
-        #     )
-        # )
         conn.login(SENDER, os.environ['APP_PASSWORD'])
-        conn.sendmail(from_addr=SENDER, to_addrs=SENDER, msg=mess)
+        conn.sendmail(from_addr=SENDER, to_addrs=SENDER, msg=body)
 
 
 if __name__ == '__main__':
