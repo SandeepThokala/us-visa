@@ -1,6 +1,4 @@
 import os
-import time
-import base64
 import smtplib as smtp
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
@@ -11,10 +9,10 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
-from webdriver_manager.chrome import ChromeDriverManager
-from webdriver_manager.core.utils import ChromeType
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
+from webdriver_manager.core.os_manager import ChromeType
+from webdriver_manager.chrome import ChromeDriverManager
 
 SENDER = 'sandeep.thokala98@gmail.com'
 
@@ -94,7 +92,6 @@ def check_slot(city):
             check_slot('Ottawa')
         else:
             send_mail()
-    
 
 def send_mail():
     with smtp.SMTP_SSL('smtp.gmail.com', 465) as conn: 
