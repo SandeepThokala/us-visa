@@ -77,7 +77,7 @@ def check_slot(city):
             try:
                 date = WebDriverWait(chrome, 10).until(
                     EC.presence_of_element_located((By.CLASS_NAME, "ui-datepicker-group-first"))
-                ).find_element(By.TAG_NAME, 'tbody').find_element(By.TAG_NAME, 'a')
+                ).find_element(By.TAG_NAME, 'tbody').find_element(By.TAG_NAME, 'a').parent
                 send_mail(f'{date.get_attribute("data-month")}-{date.get_attribute("data-yeay")}')
                 break
             except:

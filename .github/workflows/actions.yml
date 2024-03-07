@@ -3,7 +3,7 @@ name: run main.py
 on:
   # push
   schedule:
-    - cron: '0 1-7/1 * * *' # every hour from 1 through 7.
+    - cron: '0 * * * *' # every one hour.
 
 jobs:
   build:
